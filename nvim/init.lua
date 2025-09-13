@@ -202,6 +202,19 @@ require("lazy").setup({
     end
   },
 
+  -- Multi-cursor editing (seperti Ctrl+D di VSCode)
+  {
+    'mg979/vim-visual-multi',
+    branch = 'master',
+    init = function()
+      -- Konfigurasi HARUS ada di dalam `init` agar dibaca SEBELUM plugin dimuat.
+      -- Ini mencegah masalah di mana shortcut malah menghapus teks.
+      vim.g.VM_maps = {
+        ['Find Under'] = '<leader>d', -- Shortcut utama seperti di VSCode
+        ['Find Subword Under'] = '<leader>d',
+      }
+    end
+  },
 
   -- Terminal (Toggleterm)
   {
