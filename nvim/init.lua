@@ -7,7 +7,8 @@ vim.opt.relativenumber = true -- Nomor baris relatif
 vim.opt.mouse = 'a'           -- Enable mouse
 vim.opt.ignorecase = true     -- Ignore case saat search
 vim.opt.smartcase = true      -- Smart case sensitivity
-vim.opt.hlsearch = true       -- Jangan highlight hasil search
+vim.opt.hlsearch = true       -- Highlight hasil search
+vim.opt.cursorline = true     -- Highlight baris kursor saat ini
 vim.opt.wrap = false          -- Jangan wrap teks panjang
 vim.opt.breakindent = true    -- Maintain indent saat wrap
 vim.opt.tabstop = 2           -- Tab width = 2 spaces
@@ -15,6 +16,11 @@ vim.opt.shiftwidth = 2        -- Indent width = 2 spaces
 vim.opt.expandtab = true      -- Convert tabs to spaces
 vim.opt.autoindent = true     -- Auto indent baris baru
 vim.opt.termguicolors = true  -- Aktifkan true color support
+
+-- Pengaturan Folding
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldlevelstart = 99 -- Buka file dengan semua fold terbuka
 
 -- Pengaturan clipboard (penting di Windows!)
 vim.opt.clipboard = "unnamedplus"
@@ -32,11 +38,9 @@ end, { desc = "Copy full file path" })
 -- Keymap untuk menghilangkan highlight hasil pencarian
 vim.keymap.set('n', '<leader><space>', '<cmd>nohlsearch<CR>', { desc = "Clear search highlight" })
 
--- Keymaps untuk Code Folding
-vim.keymap.set('n', '<leader>za', vim.cmd.foldtoggle, { desc = "Toggle fold" })
-vim.keymap.set('n', '<leader>zR', function() require('ufo').openAllFolds() end, { desc = "Open all folds" })
-vim.keymap.set('n', '<leader>zM', function() require('ufo').closeAllFolds() end, { desc = "Close all folds" })
-
+-- Keymap untuk indentasi berulang di mode Visual
+vim.keymap.set('v', '>', '>gv', { noremap = true, silent = true, desc = "Indent and re-select" })
+vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true, desc = "De-indent and re-select" })
 
 
 -- Bootstrap lazy.nvim
@@ -78,13 +82,22 @@ require("lazy").setup({
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
 
-      require("nvim-tree").setup {}
+      require("nvim-tree").setup({
+        -- MODIFIKASI: Nonaktifkan error recognition dari nvim-tree
+        diagnostics = {
+          enable = false,
+        },
+        git = {
+          enable = false,
+        }
+      })
 
       -- Keymap untuk membuka/menutup NvimTree
       vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = "Toggle file explorer" })
     end,
   },
 
+  -- PERBAIKAN: Menambahkan kembali blok bufferline yang hilang/rusak
   -- Tabline / Bufferline (seperti tab di VSCode)
   {
     'akinsho/bufferline.nvim',
@@ -109,20 +122,6 @@ require("lazy").setup({
     end
   },
 
-  -- Statusline (baris status di bawah)
-  {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('lualine').setup({
-        options = {
-          -- Atur tema lualine agar cocok dengan colorscheme utama Anda
-          theme = 'moonfly'
-        }
-      })
-    end
-  },
-
   -- Code Folding (UFO - Ultra Fold Organization)
   {
     'kevinhwang91/nvim-ufo',
@@ -137,6 +136,20 @@ require("lazy").setup({
         provider_selector = function(bufnr, filetype, buftype)
           return { 'treesitter', 'indent' }
         end
+      })
+    end
+  },
+
+  -- Statusline (baris status di bawah)
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('lualine').setup({
+        options = {
+          -- Atur tema lualine agar cocok dengan colorscheme utama Anda
+          theme = 'moonfly'
+        }
       })
     end
   },
@@ -256,8 +269,8 @@ require("lazy").setup({
         ensure_installed = { "lua", "javascript", "typescript", "python", "html", "css", "vim", "vimdoc" },
         highlight = { enable = true },
         indent = { enable = true },
-        auto_install = true, -- Otomatis install parser saat membuka file baru
-        folding = { enable = true }
+        auto_install = true,         -- Otomatis install parser saat membuka file baru
+        folding = { enable = true }, -- AKTIFKAN FITUR FOLDING
       })
     end
   },
