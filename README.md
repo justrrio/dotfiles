@@ -1,4 +1,4 @@
-
+![banner](images/banner.jpg)
 
 # My Personal Neovim Configuration
 
