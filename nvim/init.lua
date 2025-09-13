@@ -1,44 +1,44 @@
 -- init.lua
--- Konfigurasi dasar untuk Neovim
+-- Basic configuration for Neovim
 
--- Pengaturan dasar
-vim.opt.number = true         -- Tampilkan nomor baris
-vim.opt.relativenumber = true -- Nomor baris relatif
+-- Basic settings
+vim.opt.number = true         -- Show line numbers
+vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.mouse = 'a'           -- Enable mouse
-vim.opt.ignorecase = true     -- Ignore case saat search
+vim.opt.ignorecase = true     -- Ignore case when searching
 vim.opt.smartcase = true      -- Smart case sensitivity
-vim.opt.hlsearch = true       -- Highlight hasil search
-vim.opt.cursorline = true     -- Highlight baris kursor saat ini
-vim.opt.wrap = false          -- Jangan wrap teks panjang
-vim.opt.breakindent = true    -- Maintain indent saat wrap
+vim.opt.hlsearch = true       -- Highlight search results
+vim.opt.cursorline = true     -- Highlight the current cursor line
+vim.opt.wrap = false          -- Do not wrap long text
+vim.opt.breakindent = true    -- Maintain indent when wrapping
 vim.opt.tabstop = 2           -- Tab width = 2 spaces
 vim.opt.shiftwidth = 2        -- Indent width = 2 spaces
 vim.opt.expandtab = true      -- Convert tabs to spaces
-vim.opt.autoindent = true     -- Auto indent baris baru
-vim.opt.termguicolors = true  -- Aktifkan true color support
+vim.opt.autoindent = true     -- Auto indent new lines
+vim.opt.termguicolors = true  -- Enable true color support
 
--- Pengaturan Folding
+-- Folding settings
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.opt.foldlevelstart = 99 -- Buka file dengan semua fold terbuka
+vim.opt.foldlevelstart = 99 -- Open file with all folds expanded
 
--- Pengaturan clipboard (penting di Windows!)
+-- Clipboard settings (important on Windows!)
 vim.opt.clipboard = "unnamedplus"
 
--- Set leader key (tombol utama untuk shortcut custom)
-vim.g.mapleader = " " -- Space sebagai leader key
+-- Set leader key (main key for custom shortcuts)
+vim.g.mapleader = " " -- Space as leader key
 
--- Keymaps dasar
+-- Basic keymaps
 vim.keymap.set('n', '<leader>yp', function()
   vim.fn.setreg('+', vim.fn.expand('%:p'))
   vim.api.nvim_echo({ { 'File path copied to clipboard!', 'MoreMsg' } }, false, {})
 end, { desc = "Copy full file path" })
--- vim.keymap.set("n", "<leader>e", vim.cmd.Ex) -- Kita ganti dengan NvimTree
+-- vim.keymap.set("n", "<leader>e", vim.cmd.Ex) -- We replace it with NvimTree
 
--- Keymap untuk menghilangkan highlight hasil pencarian
+-- Keymap to clear search highlights
 vim.keymap.set('n', '<leader><space>', '<cmd>nohlsearch<CR>', { desc = "Clear search highlight" })
 
--- Keymap untuk indentasi berulang di mode Visual
+-- Keymap for repeated indentation in Visual mode
 vim.keymap.set('v', '>', '>gv', { noremap = true, silent = true, desc = "Indent and re-select" })
 vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true, desc = "De-indent and re-select" })
 
@@ -78,12 +78,12 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
-      -- Dianjurkan untuk menonaktifkan file explorer bawaan (netrw)
+      -- Recommended: disable built-in file explorer (netrw)
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
 
       require("nvim-tree").setup({
-        -- MODIFIKASI: Nonaktifkan error recognition dari nvim-tree
+        -- MODIFICATION: Disable error recognition from nvim-tree
         diagnostics = {
           enable = false,
         },
@@ -92,30 +92,30 @@ require("lazy").setup({
         }
       })
 
-      -- Keymap untuk membuka/menutup NvimTree
+      -- Keymap to toggle NvimTree
       vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = "Toggle file explorer" })
     end,
   },
 
-  -- PERBAIKAN: Menambahkan kembali blok bufferline yang hilang/rusak
-  -- Tabline / Bufferline (seperti tab di VSCode)
+  -- FIX: Added back the bufferline block that was missing/broken
+  -- Tabline / Bufferline (like tabs in VSCode)
   {
     'akinsho/bufferline.nvim',
     version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons', -- Untuk ikon file
+    dependencies = 'nvim-tree/nvim-web-devicons', -- For file icons
     config = function()
       require("bufferline").setup({
         options = {
-          -- Tampilkan ikon diagnostik (error, warning) dari LSP
+          -- Show diagnostic icons (error, warning) from LSP
           diagnostics = "nvim_lsp",
-          -- Selalu tampilkan bufferline, bahkan jika hanya ada 1 tab
+          -- Always show bufferline even if only one tab
           always_show_bufferline = true,
-          -- Tampilkan ikon 'x' untuk menutup
+          -- Show 'x' icon to close
           show_buffer_close_icons = true,
           show_close_icon = '',
         }
       })
-      -- Keymaps untuk navigasi buffer/tab
+      -- Keymaps for buffer/tab navigation
       vim.keymap.set('n', '<Tab>', '<cmd>BufferLineCycleNext<cr>', { desc = "Next buffer" })
       vim.keymap.set('n', '<S-Tab>', '<cmd>BufferLineCyclePrev<cr>', { desc = "Previous buffer" })
       vim.keymap.set('n', '<leader>bc', '<cmd>bdelete<CR>', { desc = "Close current buffer" })
@@ -127,7 +127,7 @@ require("lazy").setup({
     'kevinhwang91/nvim-ufo',
     dependencies = 'kevinhwang91/promise-async',
     config = function()
-      vim.o.foldcolumn = '1' -- Tampilkan indikator fold di sebelah kiri
+      vim.o.foldcolumn = '1' -- Show fold indicator on the left
       vim.o.foldlevel = 99
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
@@ -140,31 +140,31 @@ require("lazy").setup({
     end
   },
 
-  -- Statusline (baris status di bawah)
+  -- Statusline (status bar at the bottom)
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('lualine').setup({
         options = {
-          -- Atur tema lualine agar cocok dengan colorscheme utama Anda
+          -- Set lualine theme to match your main colorscheme
           theme = 'moonfly'
         }
       })
     end
   },
 
-  -- Indent lines (Garis vertikal untuk indentasi)
+  -- Indent lines (vertical lines for indentation)
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
-    opts = {}, -- Menggunakan konfigurasi default yang sudah bagus
+    opts = {}, -- Using good default config
   },
 
-  -- Commenting (seperti Ctrl+/ di VSCode)
+  -- Commenting (like Ctrl+/ in VSCode)
   {
     'numToStr/Comment.nvim',
-    opts = {}, -- Ini akan otomatis menjalankan require('Comment').setup()
+    opts = {}, -- This will automatically run require('Comment').setup()
   },
 
   -- Auto-formatting (Conform)
@@ -180,21 +180,21 @@ require("lazy").setup({
           css = { "prettier" },
           python = { "ruff_format", "black" },
         },
-        -- Aktifkan format on save
+        -- Enable format on save
         format_on_save = {
           timeout_ms = 500,
           lsp_fallback = true,
         },
       })
 
-      -- Tambahkan shortcut untuk format manual
+      -- Add manual format shortcut
       vim.keymap.set({ 'n', 'v' }, '<leader>f', function()
         require('conform').format({ lsp_fallback = true })
       end, { desc = "Format file or selection" })
     end,
   },
 
-  -- Git signs (Ikon untuk perubahan Git di gutter)
+  -- Git signs (icons for Git changes in the gutter)
   {
     'lewis6991/gitsigns.nvim',
     config = function()
@@ -202,15 +202,15 @@ require("lazy").setup({
     end
   },
 
-  -- Multi-cursor editing (seperti Ctrl+D di VSCode)
+  -- Multi-cursor editing (like Ctrl+D in VSCode)
   {
     'mg979/vim-visual-multi',
     branch = 'master',
     init = function()
-      -- Konfigurasi HARUS ada di dalam `init` agar dibaca SEBELUM plugin dimuat.
-      -- Ini mencegah masalah di mana shortcut malah menghapus teks.
+      -- Configuration MUST be inside `init` so it is read BEFORE the plugin loads.
+      -- This prevents issues where the shortcut deletes text instead.
       vim.g.VM_maps = {
-        ['Find Under'] = '<leader>d', -- Shortcut utama seperti di VSCode
+        ['Find Under'] = '<leader>d', -- Main shortcut like in VSCode
         ['Find Subword Under'] = '<leader>d',
       }
     end
@@ -222,20 +222,20 @@ require("lazy").setup({
     version = "*",
     config = function()
       require("toggleterm").setup({
-        -- Kita tidak set direction default agar lebih fleksibel
-        persistent = true, -- Atur agar sesi terminal tetap ada
+        -- We don’t set a default direction for more flexibility
+        persistent = true, -- Keep terminal sessions
       })
 
-      -- Helper function agar bisa keluar dari terminal-mode dengan <esc>
+      -- Helper function to exit terminal-mode with <esc>
       function _G.set_terminal_keymaps()
         local opts = { buffer = 0 }
         vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
       end
 
-      -- Panggil function saat terminal dibuka
+      -- Call function when terminal opens
       vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
-      -- Keymaps untuk berbagai jenis terminal dengan ID unik
+      -- Keymaps for different terminal IDs
       -- Terminal 1
       vim.keymap.set("n", "<leader>o1", "<cmd>1ToggleTerm direction=horizontal<CR>", { desc = "Toggle term 1 (H)" })
       -- Terminal 2
@@ -245,23 +245,23 @@ require("lazy").setup({
     end,
   },
 
-  -- Telescope (Fuzzy finder yang sangat berguna)
+  -- Telescope (Super useful fuzzy finder)
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.5', -- Versi yang lebih baru
+    tag = '0.1.5', -- Newer version
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local builtin = require('telescope.builtin')
-      -- Shortcut 1: Pencarian normal (Cepat, bersih, menghormati .gitignore)
+      -- Shortcut 1: Normal search (fast, clean, respects .gitignore)
       vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Find Files" })
 
-      -- Shortcut 2: Pencarian file konfigurasi (menampilkan .env, tapi tidak node_modules)
+      -- Shortcut 2: Config file search (shows .env but excludes node_modules)
       vim.keymap.set('n', '<leader>fa', function()
         builtin.find_files({
-          hidden = true, -- Tampilkan file tersembunyi seperti .env
+          hidden = true, -- Show hidden files like .env
           find_opts = {
             '--glob',
-            '!node_modules', -- Tapi secara eksplisit KECUALIKAN node_modules
+            '!node_modules', -- Explicitly EXCLUDE node_modules
           },
         })
       end, { desc = "Find All files (incl. .env)" })
@@ -273,7 +273,7 @@ require("lazy").setup({
     end
   },
 
-  -- Treesitter (Syntax highlighting yang canggih)
+  -- Treesitter (Advanced syntax highlighting)
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
@@ -282,24 +282,24 @@ require("lazy").setup({
         ensure_installed = { "lua", "javascript", "typescript", "python", "html", "css", "vim", "vimdoc" },
         highlight = { enable = true },
         indent = { enable = true },
-        auto_install = true,         -- Otomatis install parser saat membuka file baru
-        folding = { enable = true }, -- AKTIFKAN FITUR FOLDING
+        auto_install = true,         -- Automatically install parser when opening new files
+        folding = { enable = true }, -- ENABLE FOLDING FEATURE
       })
     end
   },
 
-  -- Completion Engine (HARUS ada sebelum LSP!)
+  -- Completion Engine (MUST be before LSP!)
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline", -- Untuk path completion di command line
+      "hrsh7th/cmp-cmdline", -- For path completion in command line
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
-      "rafamadriz/friendly-snippets", -- Kumpulan snippet berguna
-      "onsails/lspkind.nvim",         -- Untuk ikon di completion menu
+      "rafamadriz/friendly-snippets", -- Useful snippet collection
+      "onsails/lspkind.nvim",         -- For icons in completion menu
     },
     config = function()
       local cmp = require("cmp")
@@ -338,10 +338,10 @@ require("lazy").setup({
             end
           end, { 'i', 's' }),
         }),
-        -- Menambahkan Ikon pada completion menu
+        -- Add icons to the completion menu
         formatting = {
           format = lspkind.cmp_format({
-            mode = 'symbol_text', -- Menampilkan ikon dan teks
+            mode = 'symbol_text', -- Show icon and text
             maxwidth = 50,
             ellipsis_char = '...',
           }),
@@ -355,7 +355,7 @@ require("lazy").setup({
         }),
       })
 
-      -- Mengaktifkan autocompletion untuk path di command line
+      -- Enable autocompletion for paths in command line
       cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
@@ -367,7 +367,7 @@ require("lazy").setup({
     end
   },
 
-  -- Mason (Package manager untuk LSP, DAP, linter, formatter)
+  -- Mason (Package manager for LSP, DAP, linters, formatters)
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
@@ -385,17 +385,17 @@ require("lazy").setup({
     end
   },
 
-  -- Mason LSP Config (Bridge antara Mason dan nvim-lspconfig)
+  -- Mason LSP Config (Bridge between Mason and nvim-lspconfig)
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
       "williamboman/mason.nvim",
       "neovim/nvim-lspconfig",
     },
-    -- Tidak perlu config terpisah, akan di-handle di nvim-lspconfig
+    -- No separate config needed, handled in nvim-lspconfig
   },
 
-  -- LSP Config (Konfigurasi utama LSP)
+  -- LSP Config (Main LSP configuration)
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -407,7 +407,7 @@ require("lazy").setup({
       local mason_lspconfig = require("mason-lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Function untuk setup keybindings saat LSP attach
+      -- Function to set keybindings when LSP attaches
       local on_attach = function(client, bufnr)
         local opts = { buffer = bufnr, remap = false, silent = true }
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -419,29 +419,29 @@ require("lazy").setup({
         vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
       end
 
-      -- Daftar LSP server yang akan di-install otomatis oleh Mason
+      -- List of LSP servers to auto-install via Mason
       local servers = {
         "lua_ls",
-        "ts_ls", -- Untuk TypeScript/JavaScript
+        "ts_ls", -- For TypeScript/JavaScript
         "pyright",
         "html",
         "cssls",
         "emmet_ls",
       }
 
-      -- Panggil setup dari mason-lspconfig
+      -- Call setup from mason-lspconfig
       mason_lspconfig.setup({
         ensure_installed = servers,
         automatic_installation = true,
       })
-      -- Loop untuk setup setiap LSP server dengan nvim-lspconfig
+      -- Loop to set up each LSP server with nvim-lspconfig
       for _, server_name in ipairs(servers) do
         local settings = {
           capabilities = capabilities,
           on_attach = on_attach,
         }
 
-        -- Konfigurasi khusus untuk lua_ls agar mengenali environment Neovim
+        -- Special configuration for lua_ls to recognize Neovim environment
         if server_name == "lua_ls" then
           settings.settings = {
             Lua = {
