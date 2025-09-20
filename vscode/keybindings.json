@@ -1,0 +1,88 @@
+[
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.togglePanel",
+    "when": "editorTextFocus && neovim.mode != 'insert'"
+  },
+  {
+    "key": "shift+l",
+    "command": "workbench.action.nextEditor",
+    "when": "editorTextFocus && neovim.mode != 'insert'"
+  },
+  {
+    "key": "shift+h",
+    "command": "workbench.action.previousEditor",
+    "when": "editorTextFocus && neovim.mode != 'insert'"
+  },
+  {
+    "key": "tab",
+    "command": "acceptSelectedSuggestion",
+    "when": "(suggestWidgetVisible || inlineSuggestionVisible) && neovim.mode == 'insert'"
+  },
+  {
+    "key": "shift+tab",
+    "command": "outdent",
+    "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && neovim.mode == 'visual'"
+  },
+  {
+    "key": "tab",
+    "command": "tab",
+    "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && neovim.mode == 'visual'"
+  },
+  {
+    "key": "ctrl+alt+j",
+    "command": "editor.action.insertCursorBelow",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+alt+k",
+    "command": "editor.action.insertCursorAbove",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "shift+alt+j",
+    "command": "editor.action.copyLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "shift+alt+k",
+    "command": "editor.action.copyLinesAboveAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+k ctrl+l",
+    "command": "editor.toggleFold",
+    "when": "editorTextFocus && foldingEnabled && neovim.mode =='normal'"
+  },
+  {
+    "key": "ctrl+d",
+    "command": "vscode-neovim.send",
+    "args": "<C-d>zz",
+    "when": "editorTextFocus && neovim.mode == 'normal' && !inDebugRepl"
+  },
+  {
+    "key": "ctrl+u",
+    "command": "vscode-neovim.send",
+    "args": "<C-u>zz",
+    "when": "editorTextFocus && neovim.mode == 'normal' && !inDebugRepl"
+  },
+  {
+    "key": "ctrl+b",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": "editorTextFocus && neovim.mode != 'insert'"
+  },
+  {
+    "key": "ctrl+e",
+    "command": "workbench.view.explorer",
+    // "when": "viewContainer.workbench.view.extensions.enabled && neovim.mode == 'normal'"
+    "when": "editorTextFocus && neovim.mode == 'normal'"
+  },
+  {
+    "key": "ctrl+x",
+    "command": "workbench.view.extensions",
+    // "when": "viewContainer.workbench.view.extensions.enabled && neovim.mode == 'normal'"
+    "when": "editorTextFocus && neovim.mode == 'normal'"
+  }
+]
+
+

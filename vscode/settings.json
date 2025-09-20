@@ -1,0 +1,33 @@
+{
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "workbench.iconTheme": "vscode-icons",
+  "files.autoSave": "onFocusChange",
+  "editor.tabSize": 2,
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+
+  // --- Core Neovim Integration Settings ---
+
+  // IMPORTANT: Path to your Neovim executable on Linux.
+  // 'nvim' should work if you installed it via a package manager like apt.
+  "vscode-neovim.neovimExecutablePaths.linux": "nvim",
+
+  // This is the most important setting.
+  // It tells VSCode to hand over all keyboard inputs to the Neovim extension.
+  "keyboard.dispatch": "keyCode",
+
+  // --- Quality of Life Settings for a Vim-like Experience ---
+
+  // Use relative line numbers, a classic Vim feature.
+  "editor.lineNumbers": "relative",
+
+  // Ensure VSCode tabs remain visible and behave as expected.
+  "workbench.editor.showTabs": "multiple",
+  "github.copilot.enable": {
+    "*": false
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
+}
+
