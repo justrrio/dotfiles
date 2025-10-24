@@ -82,7 +82,21 @@
     "command": "workbench.view.extensions",
     // "when": "viewContainer.workbench.view.extensions.enabled && neovim.mode == 'normal'"
     "when": "editorTextFocus && neovim.mode == 'normal'"
+  },
+  {
+    "key": "ctrl+f",
+    "command": "actions.find",
+    "when": "editorFocus || editorIsOpen"
+  },
+  {
+    "key": "ctrl+w",
+    "command": "workbench.action.closeActiveEditor",
+    "when": "editorTextFocus && neovim.mode == 'normal'"
+  },
+  {
+    "key": "ctrl+t",
+    "command": "vscode-neovim.send",
+    "args": "<C-w>",
+    "when": "editorTextFocus && neovim.mode == 'normal'"
   }
 ]
-
-

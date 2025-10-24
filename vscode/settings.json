@@ -28,6 +28,8 @@
     "*": false
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "code-runner.runInTerminal": true,
+  "chat.mcp.gallery.enabled": true,
+  "chat.agent.maxRequests": 9999989
 }
-

@@ -1,31 +1,15 @@
-
 -- This is a minimal Neovim config file for use with the VSCode extension.
 -- Its only purpose is to install and configure the multi-cursor plugin.
 
 -- Basic settings for convenience
-vim.g.mapleader = " "              -- Set the leader key to Space
+vim.g.mapleader = " " -- Set the leader key to Space
+
+-- Use the stable, extension-provided clipboard method when inside VSCode,
+-- and fall back to the system clipboard (requires xclip on Linux) otherwise.
 if vim.g.vscode then
   vim.g.clipboard = vim.g.vscode_clipboard
 else
   vim.opt.clipboard = "unnamedplus"
-end
-vim.opt.clipboard = "unnamedplus"
-
--- Keymap for repeated indentation in Visual mode
--- These will be called from keybindings.json for maximum stability.
-vim.keymap.set('v', '>', '>gv', { noremap = true, silent = true, desc = "Indent and re-select" })
-vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true, desc = "De-indent and re-select" })
-
--- NEW: Remap j and k to move by display lines, not logical lines
-vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true })
-vim.keymap.set('n', 'k', 'gk', { noremap = true, silent = true })
-
--- Center cursor after scrolling with Ctrl+U and Ctrl+D
-vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
-
-if vim.g.vscode then
-  vim.o.cmdheight = 400
 end
 
 -- Bootstrap lazy.nvim package manager
@@ -58,4 +42,3 @@ require("lazy").setup({
     end
   },
 })
-
